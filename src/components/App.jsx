@@ -1,34 +1,24 @@
-import { useEffect } from 'react';
-import { getTrending, getMovieReviews } from 'service/api';
+import { Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+
+const SharedLayout = lazy(() => import('./SharedLayout/SharedLayout'));
+const Home = lazy(() => import('pages/Home/Home'));
+const MovieDetails = lazy(() => import('pages/MovieDetails/MovieDetails'));
 
 export const App = () => {
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const movies = await getTrending();
-        console.log(movies);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        console.log('show-finally');
-      }
-    };
-    fetchMovies();
-    getMovieReviews(762504).then(console.log);
-  }, []);
-
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      React homework template
-    </div>
+    <Suspense fallback={<div>...Loading</div>}>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          <Route index element={<Home />} />
+          {/* <Route path="movies" element={<Movies />} /> */}
+          <Route path="movies/:movieId" element={<MovieDetails />}>
+            {/* <Route path="cast" element={<Cast />} /> */}
+            {/* <Route path="reviews" element={<Reviews />} /> */}
+          </Route>
+          <Route path="*" element={<Home />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
