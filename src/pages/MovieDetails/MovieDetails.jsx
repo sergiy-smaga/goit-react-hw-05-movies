@@ -4,7 +4,7 @@ import { getMovieDetails } from 'service/api';
 
 export default function MovieDetails() {
   const { movieId } = useParams();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState({});
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function MovieDetails() {
 
   return (
     <main>
-      <button>Go back</button>
+      <button onClick={navigate(-1)}>Go back</button>
       <div>
         <img
           width="200"
