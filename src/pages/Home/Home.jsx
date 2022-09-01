@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getTrending } from 'service/api';
-import { Link } from 'react-router-dom';
+import MovieList from 'components/MovieList/MovieList';
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
@@ -10,25 +10,19 @@ export default function Home() {
       try {
         const movies = await getTrending();
         setMovies(movies);
-        console.log(movies);
       } catch (error) {
         console.log(error);
       } finally {
-        console.log('finally');
+        // console.log('finally');
       }
     };
     fetchMovies();
   }, []);
 
   return (
-    <ul>
-      {movies.map(({ id, title }) => {
-        return (
-          <li key={id}>
-            <Link to={`/movies/${id}`}>{title}</Link>;
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <h2>Trending now</h2>
+      {movies.length !== 0 && <MovieList movies={movies} />}
+    </>
   );
 }
