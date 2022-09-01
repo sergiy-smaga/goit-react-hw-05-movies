@@ -10,6 +10,7 @@ export default function MovieDetails() {
   const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
+ 
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -30,35 +31,37 @@ export default function MovieDetails() {
   const { genres, overview, vote_average, title, poster_path } = movie;
 
   return (
-    movie !== {} && (
-      <Container>
-        <Button onClick={() => navigate(location.state?.from ?? '/home')}>
-          Go back
-        </Button>
-        <Wrapper>
-          <img
-            width="250"
-            src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
-            alt={title}
-          />
-          <div>
-            <h2>{title}</h2>
-            <p>User Score: {(vote_average * 10).toFixed()} %</p>
-            <h3>Overview</h3>
-            <p>{overview}</p>
-            <h4>Genres</h4>
-            <p>{genres?.reduce((acc, genre) => acc + genre.name + ' ', '')}</p>
-          </div>
-        </Wrapper>
-        <h3>Additional information</h3>
-        <Wrapper>
-          <StyledLink to="cast">Cast</StyledLink>
-          <StyledLink to="reviews">Reviews</StyledLink>
-        </Wrapper>
-        <Suspense fallback={<div>...Loading</div>}>
-          <Outlet />
-        </Suspense>
-      </Container>
-    )
+    <Container>
+      <Button
+        onClick={() => {
+          navigate(location.state?.from ?? '/home');
+        }}
+      >
+        Go back
+      </Button>
+      <Wrapper>
+        <img
+          width="250"
+          src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+          alt={title}
+        />
+        <div>
+          <h2>{title}</h2>
+          <p>User Score: {(vote_average * 10).toFixed()} %</p>
+          <h3>Overview</h3>
+          <p>{overview}</p>
+          <h4>Genres</h4>
+          <p>{genres?.reduce((acc, genre) => acc + genre.name + ' ', '')}</p>
+        </div>
+      </Wrapper>
+      <h3>Additional information</h3>
+      <Wrapper>
+        <StyledLink to="cast">Cast</StyledLink>
+        <StyledLink to="reviews">Reviews</StyledLink>
+      </Wrapper>
+      <Suspense fallback={<div>...Loading</div>}>
+        <Outlet />
+      </Suspense>
+    </Container>
   );
 }
