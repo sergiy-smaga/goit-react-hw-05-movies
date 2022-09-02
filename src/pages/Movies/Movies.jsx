@@ -37,7 +37,7 @@ export default function Movies() {
         <input placeholder="put in movie name" name="query" type="text" />
         <button>Search</button>
       </Form>
-      {movies !== [] && <MovieList movies={movies} />}
+      {movies.length > 0 && <MovieList movies={movies} />}
     </>
   );
 }
